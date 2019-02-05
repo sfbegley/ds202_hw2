@@ -1,0 +1,84 @@
+---
+title: "ds202_hw2"
+author: "Sam Begley"
+date: "January 31, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+```
+  
+##Example Problem  
+  
+#0)  
+  
+```{r}
+a0 <- 1
+a0
+```
+  
+##R Commands  
+  
+#1)  
+  
+```{r}
+cel <- c(-9.444, -23.333)
+cel
+```
+  
+#2)  
+  
+```{r}
+vec200 <- rep(c(0, 1), length = 200)
+vec200
+```
+  
+#3)  
+  
+```{r}
+squares <- sqrt(1:1001)%%1
+numPerfect = 1
+for(i in 2:1001) if(squares[i]==0) numPerfect <- c(numPerfect, i)
+numPerfect
+```  
+  
+##Cars and Milage  
+  
+#1)  
+  
+```{r}
+top3 <- top_n(mpg, 3, hwy)
+top3
+```  
+  
+top_n(data, n, by) takes the top 'n' values of the dataframe 'data' when sorting by the column 'by'. In my case, I took the top 3 values of the dataframe 'mpg' when sorting by 'hwy', which gave the top 3 highway mpg values.  
+  
+#2)  
+  
+```{r}
+numCompact <- count(filter(mpg, class == 'compact'), 'model')
+numCompact
+```  
+  
+filter(df, by) takes the dataframe 'df' and sorts by a boolean logic statement 'by'. In my case, I took the dataframe 'mpg', and filtered just the rows in which the 'class' column was 'compact'. This gave me the same dataframe, but with only the compact cars. count(df, by) takes the dataframe 'df' and counts the number of unique values in the column 'by'. In my case, I took the dataframe that I just created with filter(), and counted the unique values of the column 'model'. This resulted in the number of unique models of compact cars.  
+  
+#3)  
+  
+```{r}
+ggplot(data = mpg, aes(x = cty, y = hwy)) + geom_point() + coord_cartesian()
+```  
+  
+This graph shows a clear correlation between city and highway mpg, which should be expected. It makes sense that a car with high city mpg would also get a higher highway mpg.  
+  
+#4)  
+  
+```{r}
+ggplot(data = mpg, aes(x = cty, y = hwy)) + geom_point(aes(color =)) + coord_cartesian()
+mpg %>% group_by(year) %>% summarise(avg_hwy = mean(hwy), avg_cty = mean(cty))
+```  
+  
+From this data, there does not seem to be a noticable difference between mpg for 1999 and 2008. The scatter plot is colored by year and shows no significant pattern. If 2008 had higher mpg, we would see the blue dots grouped more in the top right and the black dots grouped in the bottom left, but we do not see that. The table shows the average city and highway mpg for cars from 1999 and 2008. These values differ slightly, but it is not a significant difference. We could give a more confident answer to this question if we had more data, preferrably more cars from years other than 2008 and 1999. However, from the data we are given, I do not see a significant correlation.  
+  
